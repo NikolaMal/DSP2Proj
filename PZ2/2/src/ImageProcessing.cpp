@@ -17,7 +17,7 @@ void imageProcessingFun(const QString& progName, QImage* const outImgs, const QI
 		/* Vertical scale factor is params[0] */
 		/* Horizontal scale factor is params[1] */
 		int Y_NEW_SIZE = (int)(params[0] * Y_SIZE) - (int)(Y_SIZE*params[0]) % 4;
-		int X_NEW_SIZE = (int)(params[1] * X_SIZE) - (int)(X_SIZE*params[0]) % 4;
+		int X_NEW_SIZE = (int)(params[1] * X_SIZE) - (int)(X_SIZE*params[1]) % 4;
 		new(outImgs) QImage(X_NEW_SIZE, Y_NEW_SIZE, inImgs->format());
 		sampleAndHold(inImgs->bits(), X_SIZE, Y_SIZE, outImgs->bits(), X_NEW_SIZE, Y_NEW_SIZE);
 
@@ -34,7 +34,7 @@ void imageProcessingFun(const QString& progName, QImage* const outImgs, const QI
 		/* Horizontal scale factor is params[1] */
 
 		int Y_NEW_SIZE = (int)(params[0] * Y_SIZE) - (int)(Y_SIZE*params[0]) % 4;
-		int X_NEW_SIZE = (int)(params[1] * X_SIZE) - (int)(X_SIZE*params[0]) % 4;
+		int X_NEW_SIZE = (int)(params[1] * X_SIZE) - (int)(X_SIZE*params[1]) % 4;
 		new(outImgs) QImage(X_NEW_SIZE, Y_NEW_SIZE, inImgs->format());
 		bilinearInterpolate(inImgs->bits(), X_SIZE, Y_SIZE, outImgs->bits(), X_NEW_SIZE, Y_NEW_SIZE);
 
@@ -43,12 +43,21 @@ void imageProcessingFun(const QString& progName, QImage* const outImgs, const QI
 
 		/* TO DO: Perform Bilinear interpolation  */
 	}
+
+	else if (progName == "Bicubic") {
+		int Y_NEW_SIZE = (int)(params[0] * Y_SIZE) - (int)(Y_SIZE*params[0]) % 4;
+		int X_NEW_SIZE = (int)(params[1] * X_SIZE) - (int)(X_SIZE*params[1]) % 4;
+		new(outImgs) QImage(X_NEW_SIZE, Y_NEW_SIZE, inImgs->format());
+		bicubicInterpolate(inImgs->bits(), X_SIZE, Y_SIZE, outImgs->bits(), X_NEW_SIZE, Y_NEW_SIZE);
+	}
 	else if(progName == "Swirl") 
 	{	
 		/* Input image data in RGB format can be obtained with inImgs->bits() */
 		/* k1 factor is params[0]*/
 		/* Center of rotation coordinates are (XSIZE/2, YSIZE/2) */
 
+		new (outImgs) QImage(X_SIZE, Y_SIZE, inImgs->format());
+		imageSwirl(inImgs->bits(), X_SIZE, Y_SIZE, outImgs->bits(), X_SIZE / 2, Y_SIZE / 2, params[0]);
 		/* TO DO: Construct output image object */
 
 		/* TO DO: Perform image rotation */
@@ -59,7 +68,8 @@ void imageProcessingFun(const QString& progName, QImage* const outImgs, const QI
 		/* Input image data in RGB format can be obtained with inImgs->bits() */
 		/* k1 factor is params[0]*/
 		/* Center of rotation coordinates are (XSIZE/2, YSIZE/2) */
-
+		new (outImgs) QImage(X_SIZE, Y_SIZE, inImgs->format());
+		imageSwirlBilinear(inImgs->bits(), X_SIZE, Y_SIZE, outImgs->bits(), X_SIZE / 2, Y_SIZE / 2, params[0]);
 		/* TO DO: Construct output image object */
 
 		/* TO DO: Perform image rotation with bilinear interpolation */
