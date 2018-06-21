@@ -67,9 +67,9 @@ void bicubicInterpolate(const uchar input[], int xSize, int ySize, uchar output[
 			m = round(i * vertical_scale);
 			n = round(j * horizontal_scale);
 
-			uchar red_vertical[4] = { 0,0,0,0 };
-			uchar green_vertical[4] = { 0,0,0,0 };
-			uchar blue_vertical[4] = { 0,0,0,0 };
+			uchar red_vertical[4] = { 0 };
+			uchar green_vertical[4] = {0 };
+			uchar blue_vertical[4] = { 0};
 
 			vertical_distance = 0;
 
@@ -79,9 +79,9 @@ void bicubicInterpolate(const uchar input[], int xSize, int ySize, uchar output[
 					vertical_distance = abs(i * vertical_scale - (m + p)); 
 				}
 
-				uchar red_horizontal[4] = { 0,0,0,0 };
-				uchar green_horizontal[4] = { 0,0,0,0 };
-				uchar blue_horizontal[4] = { 0,0,0,0 };
+				uchar red_horizontal[4] = { 0 };
+				uchar green_horizontal[4] = { 0 };
+				uchar blue_horizontal[4] = { 0};
 
 				horizontal_distance = 0;
 
@@ -193,7 +193,7 @@ double w(double dist)
 	}
 	else
 	{
-		return 0;
+		return 0.0;
 	}
 }
 
